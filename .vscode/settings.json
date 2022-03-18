@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "linalgebra.h": "c",
+        "stdio.h": "c"
+    }
+}
