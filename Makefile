@@ -1,14 +1,19 @@
-linalgebra: src/vector.o src/linalgebra.o test/test-linalgebra.o
-	gcc src/vector.o src/linalgebra.o -o linalgebra -fsanitize=address,undefined
+all: linalgebra test-vector
+
+linalgebra: src/linalgebra.o src/vector.o
+	gcc -o src/linalgebra.c src/vector.c
+
+linalgebra.o: src/linalgebra.c src/linalgebra.h
+	gcc -c src/linalgebra.c
 
 vector.o: src/vector.c src/vector.h
-	gcc -c src/vector.c -fsanitize=address,undefined
+	gcc -c src/vector.c
 
-linalgebra.o: src/linalgebra.c
-	gcc -c src/linalgebra.c -fsanitize=address,undefined
+test: test/test-vector.o
+	gcc -o test/test-vector.c
 
-test-linalgebra.o: test/test-linalgebra.c
-	gcc -c test/test-linalgebra.c -fsanitize=address,undefined
+test-vector.o: test-vector.c
+	gcc -c test/test-vector.c
 
 clean:
-	rm src/*.o linalgebra
+	rm */*.o linalgebra test

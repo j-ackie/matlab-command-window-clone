@@ -25,5 +25,7 @@ int vector_product(vector_t vector1, vector_t vector2);
 
 bool vector_equals(vector_t vector1, vector_t vector2);
 
+bool vector_not_equals(vector_t vector1, vector_t vector2);
+
 // Prints contents of a vector
 void vector_print(vector_t vector);

@@ -51,6 +51,9 @@ void vector_transpose(vector_t vector)
 
 vector_t vector_add(vector_t vector1, vector_t vector2)
 {
+    if (vector1 == NULL && vector2 != NULL) {
+        return vector2;
+    }
     if ((vector1->column && vector2->column) && vector1->length == vector2->length) {
         int arr[vector1->length];
         for (int i = 0; i < vector1->length; i++) {
@@ -66,7 +69,14 @@ vector_t vector_add(vector_t vector1, vector_t vector2)
 
 vector_t vector_subtract(vector_t vector1, vector_t vector2)
 {
-    if ((vector1->column && vector2->column) && vector1->length == vector2->length) {
+    if (vector1 == NULL && vector2 != NULL) {
+        int arr[vector2->length];
+        for (int i = 0; i < vector2->length; i++) {
+            arr[i] = vector2->arr[i] * -1;
+        }
+        return vector_create(arr, vector2->length, vector2->column);
+    }
+    else if ((vector1->column && vector2->column) && vector1->length == vector2->length) {
         int arr[vector1->length];
         for (int i = 0; i < vector1->length; i++) {
             arr[i] = vector1->arr[i] - vector2->arr[i];
@@ -95,6 +105,13 @@ int vector_product(vector_t vector1, vector_t vector2)
     }
 }
 
+vector_t vector_scalar_product(vector_t vector, int scalar)
+{
+    for (int i = 0; i < vector->length; i++) {
+        
+    }
+}
+
 bool vector_equals(vector_t vector1, vector_t vector2)
 {
     if (vector1->length == vector2->length && (vector1->column && vector2->column)) {
@@ -106,6 +123,11 @@ bool vector_equals(vector_t vector1, vector_t vector2)
         return true;
     }
     return false;
+}
+
+bool vector_not_equals(vector_t vector1, vector_t vector2)
+{
+    return !vector_equals(vector1, vector2);
 }
 
 void vector_print(vector_t vector)
