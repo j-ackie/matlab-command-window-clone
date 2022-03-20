@@ -1,6 +1,5 @@
 #include "../src/vector.h"
 #include <assert.h>
-#include <stdio.h>
 #include <time.h>
 
 #define CLOCKS_PER_SEC 1000000
@@ -199,6 +198,17 @@ static void test_vector_scalar_product()
     printf("%s passed\n", __func__);
 }
 
+static void test_vector_norm()
+{
+    /// TODO: Add more tests
+    int arr1[2] = {0, 1};
+    vector_t vector1 = vector_create(arr1, 2, true);
+
+    assert(vector_equals(vector_norm(vector1), vector1));
+    
+    printf("%s passed\n", __func__);
+}
+
 int main(void) {
     clock_t begin = clock();
 
@@ -212,6 +222,7 @@ int main(void) {
     test_vector_subtract();
     test_vector_dot_product();
     test_vector_scalar_product();
+    test_vector_norm();
 
     clock_t end = clock();
 

@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 typedef struct vector* vector_t;
 
@@ -33,6 +34,8 @@ vector_t vector_subtract(vector_t vector1, vector_t vector2);
 int vector_dot_product(vector_t vector1, vector_t vector2);
 
 vector_t vector_scalar_product(vector_t vector, int scalar);
+
+vector_t vector_norm(vector_t vector);
 
 bool vector_equals(vector_t vector1, vector_t vector2);
 

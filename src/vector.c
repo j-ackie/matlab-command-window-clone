@@ -1,5 +1,6 @@
 #include "vector.h"
 
+/// TODO: Make double arrays instead
 struct vector
 {
     int* arr;
@@ -38,7 +39,7 @@ int* vector_arr(vector_t vector)
 {
     // Can't return vector->arr because it would allow 
     // vector's arr to be modified directly
-    int arr[vector->length];
+    int* arr = malloc(sizeof(int) * vector->length);
     for (int i = 0; i < vector->length; i++) {
         arr[i] = vector->arr[i];
     }
@@ -142,6 +143,28 @@ vector_t vector_scalar_product(vector_t vector, int scalar)
         arr[i] *= scalar;
     }
     
+    return vector_create(arr, vector->length, vector->column);
+}
+
+vector_t vector_norm(vector_t vector)
+{
+    if (vector == NULL) {
+        return NULL;
+    }
+
+    double magnitude = 0;
+
+    for (int i = 0; i < vector->length; i++) {
+        magnitude += pow(vector->arr[i], 2);
+    }
+
+    magnitude = sqrt(magnitude);
+
+    int* arr = vector_arr(vector);
+    for (int i = 0; i < vector->length; i++) {
+        arr[i] /= magnitude;
+    }
+
     return vector_create(arr, vector->length, vector->column);
 }
 
