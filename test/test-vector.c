@@ -96,6 +96,8 @@ static void test_vector_transpose()
 
     assert(!vector_column(vector));
 
+    vector_destroy(vector);
+
     printf("%s passed\n", __func__);
 }
 
@@ -125,6 +127,12 @@ static void test_vector_add()
     assert(vector_add(vector1, NULL) == NULL);
 
     assert(vector_add(vector1, vector5) == NULL);
+
+    vector_destroy(vector1);
+    vector_destroy(vector2);
+    vector_destroy(vector3);
+    vector_destroy(vector4);
+    vector_destroy(vector5);
 
     printf("%s passed\n", __func__);
 }
@@ -159,6 +167,13 @@ static void test_vector_subtract()
 
     assert(vector_subtract(vector1, vector5) == NULL);
 
+    vector_destroy(vector1);
+    vector_destroy(vector2);
+    vector_destroy(vector3);
+    vector_destroy(vector4);
+    vector_destroy(vector5);
+    vector_destroy(vector6);
+
     printf("%s passed\n", __func__);
 }
 
@@ -171,6 +186,9 @@ static void test_vector_dot_product()
     vector_t vector2 = vector_create(arr2, 5, true);
 
     assert(vector_dot_product(vector1, vector2) == 70);
+
+    vector_destroy(vector1);
+    vector_destroy(vector2);
 
     printf("%s passed\n", __func__);
 }
@@ -195,6 +213,10 @@ static void test_vector_scalar_product()
         assert(arr1[i] == vector_arr(vector1)[i]);
     }
 
+    vector_destroy(vector1);
+    vector_destroy(vector2);
+    vector_destroy(vector3);
+
     printf("%s passed\n", __func__);
 }
 
@@ -205,6 +227,8 @@ static void test_vector_norm()
     vector_t vector1 = vector_create(arr1, 2, true);
 
     assert(vector_equals(vector_norm(vector1), vector1));
+
+    vector_destroy(vector1);
     
     printf("%s passed\n", __func__);
 }
