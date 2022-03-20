@@ -7,11 +7,9 @@ struct vector
     bool column;
 };
 
-typedef struct vector vector;
-
 vector_t vector_create(int* arr, int arr_size, bool column)
 {
-    vector_t vector = malloc(sizeof(vector));
+    vector_t vector = malloc(sizeof(struct vector));
     if (!vector) {
         return NULL;
     }
@@ -36,6 +34,28 @@ void vector_destroy(vector_t vector)
     free(vector);
 }
 
+int* vector_arr(vector_t vector)
+{
+    // Can't return vector->arr because it would allow 
+    // vector's arr to be modified directly
+    int arr[vector->length];
+    for (int i = 0; i < vector->length; i++) {
+        arr[i] = vector->arr[i];
+    }
+    return arr;
+}
+
+
+int vector_length(vector_t vector)
+{
+    return vector->length;
+}
+
+bool vector_column(vector_t vector)
+{
+    return vector->column;
+}
+
 int* vector_at(vector_t vector, int index)
 {
     if (index >= vector->length || index < 0) {
@@ -53,6 +73,9 @@ vector_t vector_add(vector_t vector1, vector_t vector2)
 {
     if (vector1 == NULL && vector2 != NULL) {
         return vector2;
+    }
+    else if (vector2 == NULL) {
+        return NULL;
     }
     if ((vector1->column && vector2->column) && vector1->length == vector2->length) {
         int arr[vector1->length];
@@ -76,6 +99,9 @@ vector_t vector_subtract(vector_t vector1, vector_t vector2)
         }
         return vector_create(arr, vector2->length, vector2->column);
     }
+    else if (vector2 == NULL) {
+        return NULL;
+    }
     else if ((vector1->column && vector2->column) && vector1->length == vector2->length) {
         int arr[vector1->length];
         for (int i = 0; i < vector1->length; i++) {
@@ -89,27 +115,34 @@ vector_t vector_subtract(vector_t vector1, vector_t vector2)
     return NULL;
 }
 
-int vector_product(vector_t vector1, vector_t vector2)
+int vector_dot_product(vector_t vector1, vector_t vector2)
 {
-    if (vector1->length == vector2->length) {
-        if (!vector1->column && vector2->column) {
-            int product = 0;
-            for (int i = 0; i < vector1->length; i++) {
-                product += vector1->arr[i] * vector2->arr[i];
-            }
-            return product;
+    if (!vector1->column && vector2->column) {
+        int product = 0;
+        for (int i = 0; i < vector1->length; i++) {
+            product += vector1->arr[i] * vector2->arr[i];
         }
-        else if (vector1->column && !vector2->column) {
-            /// TODO: Implement matrices
-        }
+        return product;
+    }
+    else {
+        return 0;
+        /// TODO: Implement matrices
     }
 }
 
 vector_t vector_scalar_product(vector_t vector, int scalar)
 {
-    for (int i = 0; i < vector->length; i++) {
-        
+    if (vector == NULL) {
+        return NULL;
     }
+
+    int* arr = vector_arr(vector);
+
+    for (int i = 0; i < vector->length; i++) {
+        arr[i] *= scalar;
+    }
+    
+    return vector_create(arr, vector->length, vector->column);
 }
 
 bool vector_equals(vector_t vector1, vector_t vector2)

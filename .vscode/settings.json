@@ -2,6 +2,7 @@
     "files.associations": {
         "linalgebra.h": "c",
         "stdio.h": "c",
-        "vector.h": "c"
+        "vector.h": "c",
+        "stdlib.h": "c"
     }
 }
