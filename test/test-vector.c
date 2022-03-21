@@ -261,6 +261,8 @@ static void test_vector_insert()
 
     vector_destroy(vector1);
     vector_destroy(vector2);
+    vector_destroy(vector3);
+    vector_destroy(vector4);
 
     printf("%s passed\n", __func__);
 }
