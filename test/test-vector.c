@@ -15,12 +15,17 @@ static void test_vector_create_destroy(void)
 
 static void test_vector_arr(void)
 {
-    double arr[5] = {1, 2, 3, 4, 5};
-    vector_t vector = vector_create(arr, 5, true);
+    double arr1[5] = {1, 2, 3, 4, 5};
+    vector_t vector = vector_create(arr1, 5, true);
+
+    double* arr2 = vector_arr(vector);
 
     for (int i = 0; i < 5; i++) {
-        assert(arr[i] == vector_arr(vector)[i]);
+        
+        assert(arr1[i] == arr2[i]);
     }
+
+    free(arr2);
 
     vector_destroy(vector);
     
@@ -209,9 +214,13 @@ static void test_vector_scalar_product()
     assert(vector_equals(vector_scalar_product(vector1, 0), vector3));
 
     // Check that vector1 wasn't directly changed
+    double* arr4 = vector_arr(vector1);
+
     for (int i = 0; i < 5; i++) {
-        assert(arr1[i] == vector_arr(vector1)[i]);
+        assert(arr1[i] == arr4[i]);
     }
+
+    free(arr4);
 
     vector_destroy(vector1);
     vector_destroy(vector2);
@@ -268,6 +277,11 @@ static void test_vector_insert()
 }
 
 int main(void) {
+
+    printf("-----------\n");
+    printf("test-vector\n");
+    printf("-----------\n");
+
     clock_t begin = clock();
 
     test_vector_create_destroy();
@@ -287,5 +301,5 @@ int main(void) {
 
     double time = ((double) end - begin) / CLOCKS_PER_SEC * 1000;
 
-    printf("%g ms elapsed \n", time);
+    printf("\n%g ms elapsed\n\n", time);
 }
