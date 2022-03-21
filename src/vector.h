@@ -8,13 +8,16 @@
 typedef struct vector* vector_t;
 
 // Creates a vector.
-vector_t vector_create(int* arr, int arr_size, bool column);
+vector_t vector_create(double* arr, int length, bool column);
 
 // Frees a vector and its arr member.
 void vector_destroy(vector_t vector);
 
+// Returns the size of a vector.
+int vector_sizeof();
+
 // Copies and returns a malloced array of a vector.
-int* vector_arr(vector_t vector);
+double* vector_arr(vector_t vector);
 
 // Returns the length of a vector.
 int vector_length(vector_t vector);
@@ -22,8 +25,8 @@ int vector_length(vector_t vector);
 // Returns the column bool of a vector.
 bool vector_column(vector_t vector);
 
-// Returns a pointer to the index in vector.
-int* vector_at(vector_t vector, int index);
+// Returns a pointer to the index in a vector.
+double* vector_at(vector_t vector, int index);
 
 // Transposes a vector by setting column to opposite bool.
 void vector_transpose(vector_t vector);
@@ -36,13 +39,17 @@ vector_t vector_subtract(vector_t vector1, vector_t vector2);
 
 // Returns the dot product of two vectors.
 // Precondition: vector1 and vector 2 have the same length and are not NULL.
-int vector_dot_product(vector_t vector1, vector_t vector2);
+double vector_dot_product(vector_t vector1, vector_t vector2);
 
 // Returns the scalar product of a vector and a scalar.
-vector_t vector_scalar_product(vector_t vector, int scalar);
+vector_t vector_scalar_product(vector_t vector, double scalar);
 
 // Returns the normalized vector of a vector.
 vector_t vector_norm(vector_t vector);
+
+// Inserts an element at a specified index of a vector.
+// Precondition: index is valid.
+void vector_insert(vector_t vector, double value, int index);
 
 // Checks if two vectors have same elements, length, and vector type.
 bool vector_equals(vector_t vector1, vector_t vector2);

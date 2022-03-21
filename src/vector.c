@@ -3,23 +3,23 @@
 /// TODO: Make double arrays instead
 struct vector
 {
-    int* arr;
+    double* arr;
     int length;
     bool column;
 };
 
-vector_t vector_create(int* arr, int arr_size, bool column)
+vector_t vector_create(double* arr, int length, bool column)
 {
     vector_t vector = malloc(sizeof(struct vector));
     if (!vector) {
         return NULL;
     }
 
-    vector->arr = malloc(sizeof(int) * arr_size);
-    vector->length = arr_size;
+    vector->arr = malloc(sizeof(double) * length);
+    vector->length = length;
     vector->column = column;
 
-    for (int i = 0; i < arr_size; i++) {
+    for (int i = 0; i < length; i++) {
         vector->arr[i] = arr[i];
     }
 
@@ -35,17 +35,21 @@ void vector_destroy(vector_t vector)
     free(vector);
 }
 
-int* vector_arr(vector_t vector)
+int vector_sizeof()
+{
+    return sizeof(struct vector);
+}
+
+double* vector_arr(vector_t vector)
 {
     // Can't return vector->arr because it would allow 
     // vector's arr to be modified directly
-    int* arr = malloc(sizeof(int) * vector->length);
+    double* arr = malloc(sizeof(double) * vector->length);
     for (int i = 0; i < vector->length; i++) {
         arr[i] = vector->arr[i];
     }
     return arr;
 }
-
 
 int vector_length(vector_t vector)
 {
@@ -57,7 +61,7 @@ bool vector_column(vector_t vector)
     return vector->column;
 }
 
-int* vector_at(vector_t vector, int index)
+double* vector_at(vector_t vector, int index)
 {
     if (index >= vector->length || index < 0) {
         return NULL;
@@ -79,7 +83,7 @@ vector_t vector_add(vector_t vector1, vector_t vector2)
         return NULL;
     }
     if ((vector1->column && vector2->column) && vector1->length == vector2->length) {
-        int arr[vector1->length];
+        double arr[vector1->length];
         for (int i = 0; i < vector1->length; i++) {
             arr[i] = vector1->arr[i] + vector2->arr[i];
         }
@@ -94,7 +98,7 @@ vector_t vector_add(vector_t vector1, vector_t vector2)
 vector_t vector_subtract(vector_t vector1, vector_t vector2)
 {
     if (vector1 == NULL && vector2 != NULL) {
-        int arr[vector2->length];
+        double arr[vector2->length];
         for (int i = 0; i < vector2->length; i++) {
             arr[i] = vector2->arr[i] * -1;
         }
@@ -104,7 +108,7 @@ vector_t vector_subtract(vector_t vector1, vector_t vector2)
         return NULL;
     }
     else if ((vector1->column && vector2->column) && vector1->length == vector2->length) {
-        int arr[vector1->length];
+        double arr[vector1->length];
         for (int i = 0; i < vector1->length; i++) {
             arr[i] = vector1->arr[i] - vector2->arr[i];
         }
@@ -116,10 +120,10 @@ vector_t vector_subtract(vector_t vector1, vector_t vector2)
     return NULL;
 }
 
-int vector_dot_product(vector_t vector1, vector_t vector2)
+double vector_dot_product(vector_t vector1, vector_t vector2)
 {
     if (!vector1->column && vector2->column) {
-        int product = 0;
+        double product = 0;
         for (int i = 0; i < vector1->length; i++) {
             product += vector1->arr[i] * vector2->arr[i];
         }
@@ -131,13 +135,13 @@ int vector_dot_product(vector_t vector1, vector_t vector2)
     }
 }
 
-vector_t vector_scalar_product(vector_t vector, int scalar)
+vector_t vector_scalar_product(vector_t vector, double scalar)
 {
     if (vector == NULL) {
         return NULL;
     }
 
-    int* arr = vector_arr(vector);
+    double* arr = vector_arr(vector);
 
     for (int i = 0; i < vector->length; i++) {
         arr[i] *= scalar;
@@ -160,12 +164,34 @@ vector_t vector_norm(vector_t vector)
 
     magnitude = sqrt(magnitude);
 
-    int* arr = vector_arr(vector);
+    double* arr = vector_arr(vector);
     for (int i = 0; i < vector->length; i++) {
         arr[i] /= magnitude;
     }
 
     return vector_create(arr, vector->length, vector->column);
+}
+
+void vector_insert(vector_t vector, double value, int index)
+{
+    double* arr = malloc(sizeof(double) * (vector->length + 1));
+
+    for (int i = 0; i < vector->length + 1; i++) {
+        if (i == index) {
+            arr[i] = value;
+        }
+        else if (i > index){
+            arr[i] = vector->arr[i - 1];
+        }
+        else {
+            arr[i] = vector->arr[i];
+        }
+    }
+
+    free(vector->arr);
+
+    vector->arr = arr;
+    vector->length += 1;
 }
 
 bool vector_equals(vector_t vector1, vector_t vector2)
@@ -190,12 +216,12 @@ void vector_print(vector_t vector)
 {
     if (vector->column) {
         for (int i = 0; i < vector->length; i++) {
-            printf("%i\n", vector->arr[i]);
+            printf("%lf\n", vector->arr[i]);
         }
     }
     else {
         for (int i = 0; i < vector->length; i++) {
-            printf("%i ", vector->arr[i]);
+            printf("%lf ", vector->arr[i]);
         }
         printf("\n");
     }

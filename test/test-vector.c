@@ -6,7 +6,7 @@
 
 static void test_vector_create_destroy(void)
 {
-    int arr[5] = {1, 2, 3, 4, 5};
+    double arr[5] = {1, 2, 3, 4, 5};
     vector_t vector = vector_create(arr, 5, true);
     vector_destroy(vector);
 
@@ -15,7 +15,7 @@ static void test_vector_create_destroy(void)
 
 static void test_vector_arr(void)
 {
-    int arr[5] = {1, 2, 3, 4, 5};
+    double arr[5] = {1, 2, 3, 4, 5};
     vector_t vector = vector_create(arr, 5, true);
 
     for (int i = 0; i < 5; i++) {
@@ -29,14 +29,14 @@ static void test_vector_arr(void)
 
 static void test_vector_length(void)
 {
-    int arr1[5] = {1, 2, 3, 4, 5};
+    double arr1[5] = {1, 2, 3, 4, 5};
     vector_t vector = vector_create(arr1, 5, true);
 
     assert(vector_length(vector) == 5);
 
     vector_destroy(vector);
 
-    int arr2[4] = {1, 2, 3, 4};
+    double arr2[4] = {1, 2, 3, 4};
     vector = vector_create(arr2, 4, true);
     assert(vector_length(vector) == 4);
 
@@ -47,7 +47,7 @@ static void test_vector_length(void)
 
 static void test_vector_column(void)
 {
-    int arr[5] = {1, 2, 3, 4, 5};
+    double arr[5] = {1, 2, 3, 4, 5};
     vector_t vector = vector_create(arr, 5, true);
 
     assert(vector_column(vector));
@@ -65,7 +65,7 @@ static void test_vector_column(void)
 
 static void test_vector_at(void)
 {
-    int arr[5] = {1, 2, 3, 4, 5};
+    double arr[5] = {1, 2, 3, 4, 5};
     vector_t vector = vector_create(arr, 5, true);
 
     assert(*vector_at(vector, 0) == 1);
@@ -74,7 +74,7 @@ static void test_vector_at(void)
     assert(*vector_at(vector, 3) == 4);
     assert(*vector_at(vector, 4) == 5);
 
-    int* p = vector_at(vector, 0);
+    double* p = vector_at(vector, 0);
     *p += 5;
     assert(*vector_at(vector, 0) == 6);
 
@@ -87,7 +87,7 @@ static void test_vector_at(void)
 
 static void test_vector_transpose()
 {
-    int arr[5] = {1, 2, 3, 4, 5};
+    double arr[5] = {1, 2, 3, 4, 5};
     vector_t vector = vector_create(arr, 5, true);
 
     assert(vector_column(vector));
@@ -103,19 +103,19 @@ static void test_vector_transpose()
 
 static void test_vector_add()
 {
-    int arr1[5] = {1, 2, 3, 4, 5};
-    int arr2[5] = {2, 3, 4, 5, 6};
+    double arr1[5] = {1, 2, 3, 4, 5};
+    double arr2[5] = {2, 3, 4, 5, 6};
 
     vector_t vector1 = vector_create(arr1, 5, true);
     vector_t vector2 = vector_create(arr2, 5, true);
 
-    int arr3[5] = {3, 5, 7, 9, 11};
+    double arr3[5] = {3, 5, 7, 9, 11};
     vector_t vector3 = vector_create(arr3, 5, true);
 
-    int arr4[5] = {0, 0, 0, 0, 0};
+    double arr4[5] = {0, 0, 0, 0, 0};
     vector_t vector4 = vector_create(arr4, 5, true);
 
-    int arr5[3] = {2, 3, 4};
+    double arr5[3] = {2, 3, 4};
     vector_t vector5 = vector_create(arr5, 3, true);
 
     assert(vector_equals(vector_add(vector1, vector4), vector1));
@@ -139,22 +139,22 @@ static void test_vector_add()
 
 static void test_vector_subtract()
 {
-    int arr1[5] = {4, 5, 6, 7, 8};
-    int arr2[5] = {1, 2, 3, 4, 5};
+    double arr1[5] = {4, 5, 6, 7, 8};
+    double arr2[5] = {1, 2, 3, 4, 5};
 
     vector_t vector1 = vector_create(arr1, 5, true);
     vector_t vector2 = vector_create(arr2, 5, true);
 
-    int arr3[5] = {3, 3, 3, 3, 3};
+    double arr3[5] = {3, 3, 3, 3, 3};
     vector_t vector3 = vector_create(arr3, 5, true);
 
-    int arr4[5] = {0, 0, 0, 0, 0};
+    double arr4[5] = {0, 0, 0, 0, 0};
     vector_t vector4 = vector_create(arr4, 5, true);
 
-    int arr5[3] = {2, 3, 4};
+    double arr5[3] = {2, 3, 4};
     vector_t vector5 = vector_create(arr5, 3, true);
 
-    int arr6[5] = {-4, -5, -6, -7, -8};
+    double arr6[5] = {-4, -5, -6, -7, -8};
     vector_t vector6 = vector_create(arr6, 5, true);
 
     assert(vector_equals(vector_subtract(vector1, vector4), vector1));
@@ -179,8 +179,8 @@ static void test_vector_subtract()
 
 static void test_vector_dot_product()
 {
-    int arr1[5] = {1, 2, 3, 4, 5};
-    int arr2[5] = {2, 3, 4, 5, 6};
+    double arr1[5] = {1, 2, 3, 4, 5};
+    double arr2[5] = {2, 3, 4, 5, 6};
 
     vector_t vector1 = vector_create(arr1, 5, false);
     vector_t vector2 = vector_create(arr2, 5, true);
@@ -195,13 +195,13 @@ static void test_vector_dot_product()
 
 static void test_vector_scalar_product()
 {
-    int arr1[5] = {1, 2, 3, 4, 5};
+    double arr1[5] = {1, 2, 3, 4, 5};
     vector_t vector1 = vector_create(arr1, 5, true);
 
-    int arr2[5] = {5, 10, 15, 20, 25};
+    double arr2[5] = {5, 10, 15, 20, 25};
     vector_t vector2 = vector_create(arr2, 5, true);
 
-    int arr3[5] = {0, 0, 0, 0 ,0};
+    double arr3[5] = {0, 0, 0, 0 ,0};
     vector_t vector3 = vector_create(arr3, 5, true);
 
     assert(vector_equals(vector_scalar_product(vector1, 5), vector2));
@@ -223,13 +223,45 @@ static void test_vector_scalar_product()
 static void test_vector_norm()
 {
     /// TODO: Add more tests
-    int arr1[2] = {0, 1};
+    double arr1[2] = {0, 1};
     vector_t vector1 = vector_create(arr1, 2, true);
 
     assert(vector_equals(vector_norm(vector1), vector1));
 
     vector_destroy(vector1);
     
+    printf("%s passed\n", __func__);
+}
+
+static void test_vector_insert()
+{
+    double arr1[5] = {1, 2, 3, 4, 5};
+    vector_t vector1 = vector_create(arr1, 5, true);
+
+    double arr2[6] = {1, 2, 20, 3, 4 ,5};
+    vector_t vector2 = vector_create(arr2, 6, true);
+    vector_insert(vector1, 20, 2);
+
+    assert(vector_equals(vector1, vector2));
+    assert(vector_length(vector1) == 6);
+
+    double arr3[7] = {3, 1, 2, 20, 3, 4, 5};
+    vector_t vector3 = vector_create(arr3, 7, true);
+    vector_insert(vector1, 3, 0);
+
+    assert(vector_equals(vector1, vector3));
+    assert(vector_length(vector1) == 7);
+
+    double arr4[8] = {3, 1, 2, 20, 3, 4, 5, -4};
+    vector_t vector4 = vector_create(arr4, 8, true);
+    vector_insert(vector1, -4, 7);
+
+    assert(vector_equals(vector1, vector4));
+    assert(vector_length(vector1) == 8);
+
+    vector_destroy(vector1);
+    vector_destroy(vector2);
+
     printf("%s passed\n", __func__);
 }
 
@@ -247,6 +279,7 @@ int main(void) {
     test_vector_dot_product();
     test_vector_scalar_product();
     test_vector_norm();
+    test_vector_insert();
 
     clock_t end = clock();
 
