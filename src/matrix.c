@@ -15,12 +15,15 @@ matrix_t matrix_create(vector_t* vectors, int num_vectors, bool column)
     }
 
     if (column) {
-        matrix->rows = vector_length(vectors[0]);
+        matrix->rows = 4;
         matrix->columns = num_vectors;
     }
-    else {
-        matrix->rows = num_vectors;
-        matrix->columns = vector_length(vectors[0]);
-    }
-    matrix->arr = malloc(sizeof(double) * matrix->rows * matrix->columns);
+
+    vector_print(vectors[0]);
+    // else {
+    //     matrix->rows = num_vectors;
+    //     matrix->columns = vector_length(vectors[0]);
+    // }
+    // matrix->arr = malloc(sizeof(double) * matrix->rows * matrix->columns);
+    return NULL;
 }

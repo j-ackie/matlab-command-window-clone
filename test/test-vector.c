@@ -288,4 +288,18 @@ int main(void) {
     double time = ((double) end - begin) / CLOCKS_PER_SEC * 1000;
 
     printf("%g ms elapsed \n", time);
+
+    double arr1[3] = {1, 2, 3};
+    double arr2[3] = {2, 3, 4};
+    vector_t vector1 = vector_create(arr1, 3, true);
+    vector_t vector2 = vector_create(arr2, 3, true);
+
+    vector_t* vectors = malloc(sizeof(vector_t) * 2);
+    vectors[0] = vector1;
+    vector_print(vectors[0]);
+
+
+
+    vector_destroy(vector1);
+    vector_destroy(vector2);
 }
