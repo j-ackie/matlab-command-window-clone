@@ -7,13 +7,12 @@ struct matrix
     int columns;
 };
 
-matrix_t matrix_create(vector_t* vectors, int num_vectors, bool column)
+matrix_t matrix_create_from_vectors(vector_t* vectors, int num_vectors, bool column)
 {
     matrix_t matrix = malloc(sizeof(struct matrix));
     if (!matrix) {
         return NULL;
     }
-
     if (column) {
         matrix->rows = vector_length(vectors[0]);
         matrix->columns = num_vectors;
@@ -34,6 +33,25 @@ matrix_t matrix_create(vector_t* vectors, int num_vectors, bool column)
             for (int j = 0; j < matrix->columns; j++) {
                 matrix->arr[i][j] = *vector_at(vectors[i], j);
             }
+        }
+    }
+    return matrix;
+}
+
+
+matrix_t matrix_create_from_array(double** arr, int rows, int columns)
+{
+    matrix_t matrix = malloc(sizeof(struct matrix));
+    if (!matrix) {
+        return NULL;
+    }
+    matrix->rows = rows;
+    matrix->columns = columns;
+    matrix->arr = malloc(sizeof(double*) * matrix->rows);
+    for (int i = 0; i < matrix->rows; i++) {
+        matrix->arr[i] = malloc(sizeof(double) * matrix->columns);
+        for (int j = 0; j < matrix->columns; j++) {
+            matrix->arr[i][j] = arr[i][j];
         }
     }
     return matrix;
@@ -82,6 +100,25 @@ double* matrix_at(matrix_t matrix, int row, int column)
         return NULL;
     }
     return &matrix->arr[row][column];
+}
+
+matrix_t matrix_transpose(matrix_t matrix)
+{
+    double** arr = malloc(sizeof(double*) * matrix->columns);
+    for (int i = 0; i < matrix->columns; i++) {
+        arr[i] = malloc(sizeof(double) * matrix->rows);
+        for (int j = 0; j < matrix->rows; j++) {
+            arr[i][j] = matrix->arr[j][i];
+        }
+    }
+    matrix_t transposed_matrix = matrix_create_from_array(arr, matrix->columns, matrix->rows);
+
+    for (int i = 0; i < matrix->rows; i++) {
+        free(arr[i]);
+    }
+    free(arr);
+
+    return transposed_matrix;
 }
 
 void matrix_print(matrix_t matrix)

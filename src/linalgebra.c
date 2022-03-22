@@ -14,7 +14,11 @@ int main(void)
     vectors[0] = vector1;
     vectors[1] = vector2;
 
-    matrix_t matrix = matrix_create(vectors, 2, false);
+    matrix_t matrix = matrix_create_from_vectors(vectors, 2, false);
+
+    matrix_print(matrix);
+
+    matrix = matrix_transpose(matrix);
 
     matrix_print(matrix);
 }

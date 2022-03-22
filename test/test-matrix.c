@@ -10,13 +10,32 @@ static void test_matrix_create_destroy(void)
     vector_t vector1 = vector_create(arr1, 3, true);
     vector_t vector2 = vector_create(arr2, 3, true);
 
-    vector_t* vectors = malloc(sizeof(vector_t) * 2);
-    vectors[0] = vector1;
-    vectors[1] = vector2;
+    vector_t vectors[2] = {vector1, vector2};
 
-    matrix_t matrix = matrix_create(vectors, 2, true);
+    matrix_t matrix1 = matrix_create_from_vectors(vectors, 2, true);
 
-    matrix_destroy(matrix);
+    // matrix_print(matrix1);
+
+    matrix_destroy(matrix1);
+
+    double** arr3 = malloc(sizeof(double*) * 2);
+    for (int i = 0; i < 2; i++) {
+        arr3[i] = malloc(sizeof(double) * 3);
+        for (int j = 0; j < 3; j++) {
+            arr3[i][j] = i + (j + 1);
+        }
+    }
+
+    matrix_t matrix2 = matrix_create_from_array(arr3, 2, 3);
+
+    for (int i = 0; i < 2; i++) {
+        free(arr3[i]);
+    }
+    free(arr3);
+
+    // matrix_print(matrix2);
+
+    matrix_destroy(matrix2);
 
     printf("%s passed\n", __func__);
 }
@@ -33,7 +52,7 @@ static void test_matrix_arr(void)
     vectors[0] = vector1;
     vectors[1] = vector2;
 
-    matrix_t matrix = matrix_create(vectors, 2, true);
+    matrix_t matrix = matrix_create_from_vectors(vectors, 2, true);
 
     double arr3[3][2] = {{1, 2}, {2, 3}, {3, 4}};
 
@@ -57,6 +76,11 @@ static void test_matrix_at(void)
 
 }
 
+static void test_matrix_transpose(void)
+{
+    
+}
+
 int main(void)
 {
     printf("-----------\n");
@@ -68,6 +92,7 @@ int main(void)
     test_matrix_create_destroy();
     test_matrix_arr();
     test_matrix_at();
+    test_matrix_transpose();
 
     clock_t end = clock();
 

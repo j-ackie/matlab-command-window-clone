@@ -6,7 +6,9 @@ typedef struct matrix* matrix_t;
 
 // Creates a matrix.
 // Precondition: Vectors are the same type of vector. Vectors is not null.
-matrix_t matrix_create(vector_t* vectors, int num_vectors, bool column);
+matrix_t matrix_create_from_vectors(vector_t* vectors, int num_vectors, bool column);
+
+matrix_t matrix_create_from_array(double** arr, int rows, int columns);
 
 void matrix_destroy(matrix_t matrix);
 
@@ -17,5 +19,7 @@ int matrix_rows(matrix_t matrix);
 int matrix_columns(matrix_t matrix);
 
 double* matrix_at(matrix_t matrix, int row, int column);
+
+matrix_t matrix_transpose(matrix_t matrix);
 
 void matrix_print(matrix_t matrix);
