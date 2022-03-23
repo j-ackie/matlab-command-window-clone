@@ -143,6 +143,23 @@ matrix_t matrix_add(matrix_t matrix1, matrix_t matrix2)
     return NULL;
 }
 
+matrix_t matrix_multiplication(matrix_t matrix1, matrix_t matrix2)
+{
+    if (matrix1->columns != matrix2->rows) {
+        return NULL;
+    }
+
+    double arr[matrix1->rows][matrix2->columns];
+
+    // for (int i = 0; i < matrix1->rows; i++) {
+    //     double product = 0;
+    //     for (int j = 0; j < matrix1->columns; j++) {
+    //         product += matrix1->arr[i][j] * matrix2->arr[j][i];
+    //     }
+    //     arr[i][]
+    // }
+}
+
 matrix_t matrix_subtract(matrix_t matrix1, matrix_t matrix2)
 {
     if (matrix1 == NULL && matrix2 != NULL) {
@@ -187,6 +204,39 @@ matrix_t matrix_scalar_product(matrix_t matrix, double scalar)
     return product;
 }
 
+void matrix_row_swap(matrix_t matrix, int row1, int row2) 
+{
+    if (row1 >= matrix->rows || row2 >= matrix->rows || row1 < 0 || row2 < 0) {
+        return;
+    }
+
+    double* temp = matrix->arr[row1];
+    matrix->arr[row1] = matrix->arr[row2];
+    matrix->arr[row2] = temp;
+}
+
+void matrix_row_multiply(matrix_t matrix, int row, int scalar)
+{
+    for (int i = 0; i < matrix->columns; i++) {
+        matrix->arr[row][i] *= scalar;
+    }
+}
+
+void matrix_row_add(matrix_t matrix, int row1, int row2, int scalar)
+{
+    for (int i = 0; i < matrix->columns; i++) {
+        matrix->arr[row2][i] += matrix->arr[row1][i] * scalar;
+    }
+}
+
+void matrix_rref(matrix_t matrix)
+{
+    int current_row = 0;
+    int current_col = 0;
+    while (current_row < matrix->rows && current_col < matrix->columns) {
+
+    }
+}
 
 bool matrix_equals(matrix_t matrix1, matrix_t matrix2)
 {

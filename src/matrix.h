@@ -38,8 +38,19 @@ matrix_t matrix_add(matrix_t matrix1, matrix_t matrix2);
 // Returns the difference between two matrices.
 matrix_t matrix_subtract(matrix_t matrix1, matrix_t matrix2);
 
+matrix_t matrix_multiplication(matrix_t matrix1, matrix_t matrix2);
+
 // Returns the scalar product of a matrix and a scalar.
-matrix_t matrix_scalar_product(matrix_t matrix1, double scalar);
+matrix_t matrix_scalar_product(matrix_t matrix, double scalar);
+
+// Swaps two rows in a matrix.
+void matrix_row_swap(matrix_t matrix, int row1, int row2);
+
+// Multiplies a row in a matrix by a scalar value.
+void matrix_row_multiply(matrix_t matrix, int row, int scalar);
+
+// Adds scalar * row1 to row2 in a matrix.
+void matrix_row_add(matrix_t matrix, int row1, int row2, int scalar);
 
 // Checks if two matrices have same elements, number of rows, 
 // and number of columns. 
