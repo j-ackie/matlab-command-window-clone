@@ -97,11 +97,12 @@ static void test_vector_transpose()
 
     assert(vector_column(vector));
 
-    vector_transpose(vector);
+    vector_t transposed_vector = vector_transpose(vector);
 
-    assert(!vector_column(vector));
+    assert(vector_column(vector) == !vector_column(transposed_vector));
 
     vector_destroy(vector);
+    vector_destroy(transposed_vector);
 
     printf("%s passed\n", __func__);
 }
@@ -214,13 +215,9 @@ static void test_vector_scalar_product()
     assert(vector_equals(vector_scalar_product(vector1, 0), vector3));
 
     // Check that vector1 wasn't directly changed
-    double* arr4 = vector_arr(vector1);
-
     for (int i = 0; i < 5; i++) {
-        assert(arr1[i] == arr4[i]);
+        assert(arr1[i] == *vector_at(vector1, i));
     }
-
-    free(arr4);
 
     vector_destroy(vector1);
     vector_destroy(vector2);

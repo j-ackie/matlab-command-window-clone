@@ -1,6 +1,5 @@
 #include "vector.h"
 
-/// TODO: Make double arrays instead
 struct vector
 {
     double* arr;
@@ -8,7 +7,7 @@ struct vector
     bool column;
 };
 
-vector_t vector_create(double* arr, int length, bool column)
+vector_t vector_create(double arr[], int length, bool column)
 {
     vector_t vector = malloc(sizeof(struct vector));
     if (!vector) {
@@ -33,11 +32,6 @@ void vector_destroy(vector_t vector)
     }
     free(vector->arr);
     free(vector);
-}
-
-int vector_sizeof()
-{
-    return sizeof(struct vector);
 }
 
 double* vector_arr(vector_t vector)
@@ -69,9 +63,9 @@ double* vector_at(vector_t vector, int index)
     return &vector->arr[index];
 }
 
-void vector_transpose(vector_t vector)
+vector_t vector_transpose(vector_t vector)
 {
-    vector->column = !vector->column;
+    return vector_create(vector->arr, vector->length, !vector->column);
 }
 
 vector_t vector_add(vector_t vector1, vector_t vector2)
@@ -141,13 +135,13 @@ vector_t vector_scalar_product(vector_t vector, double scalar)
         return NULL;
     }
 
-    double* arr = vector_arr(vector);
+    vector_t product = vector_create(vector->arr, vector->length, vector->column);
 
-    for (int i = 0; i < vector->length; i++) {
-        arr[i] *= scalar;
+    for (int i = 0; i < product->length; i++) {
+        product->arr[i] *= scalar;
     }
-    
-    return vector_create(arr, vector->length, vector->column);
+
+    return product;
 }
 
 vector_t vector_norm(vector_t vector)
@@ -165,11 +159,16 @@ vector_t vector_norm(vector_t vector)
     magnitude = sqrt(magnitude);
 
     double* arr = vector_arr(vector);
+
     for (int i = 0; i < vector->length; i++) {
         arr[i] /= magnitude;
     }
 
-    return vector_create(arr, vector->length, vector->column);
+    vector_t norm = vector_create(arr, vector->length, vector->column);
+
+    free(arr);
+
+    return norm;
 }
 
 void vector_insert(vector_t vector, double value, int index)

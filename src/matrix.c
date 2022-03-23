@@ -7,7 +7,7 @@ struct matrix
     int columns;
 };
 
-matrix_t matrix_create_from_vectors(vector_t* vectors, int num_vectors, bool column)
+matrix_t matrix_create_from_vectors(int num_vectors, vector_t vectors[num_vectors], bool column)
 {
     matrix_t matrix = malloc(sizeof(struct matrix));
     if (!matrix) {
@@ -39,7 +39,7 @@ matrix_t matrix_create_from_vectors(vector_t* vectors, int num_vectors, bool col
 }
 
 
-matrix_t matrix_create_from_array(double** arr, int rows, int columns)
+matrix_t matrix_create_from_array(int rows, int columns, double arr[rows][columns])
 {
     matrix_t matrix = malloc(sizeof(struct matrix));
     if (!matrix) {
@@ -62,10 +62,7 @@ void matrix_destroy(matrix_t matrix)
     if (matrix == NULL) {
         return;
     }
-    for (int i = 0; i < matrix->rows; i++) {
-        free(matrix->arr[i]);
-    }
-    free(matrix->arr);
+    matrix_destroy_arr(matrix->arr, matrix->rows);
     free(matrix);
 }
 
@@ -81,6 +78,14 @@ double** matrix_arr(matrix_t matrix)
         }
     }
     return arr;
+}
+
+void matrix_destroy_arr(double** arr, int rows)
+{
+    for (int i = 0; i < rows; i++) {
+        free(arr[i]);
+    }
+    free(arr);
 }
 
 int matrix_rows(matrix_t matrix)
@@ -104,21 +109,103 @@ double* matrix_at(matrix_t matrix, int row, int column)
 
 matrix_t matrix_transpose(matrix_t matrix)
 {
-    double** arr = malloc(sizeof(double*) * matrix->columns);
+    double arr[matrix->columns][matrix->rows];
+
     for (int i = 0; i < matrix->columns; i++) {
-        arr[i] = malloc(sizeof(double) * matrix->rows);
         for (int j = 0; j < matrix->rows; j++) {
             arr[i][j] = matrix->arr[j][i];
         }
     }
-    matrix_t transposed_matrix = matrix_create_from_array(arr, matrix->columns, matrix->rows);
 
-    for (int i = 0; i < matrix->rows; i++) {
-        free(arr[i]);
-    }
-    free(arr);
+    matrix_t transposed_matrix = matrix_create_from_array(matrix->columns,
+                                                        matrix->rows, arr);
 
     return transposed_matrix;
+}
+
+matrix_t matrix_add(matrix_t matrix1, matrix_t matrix2)
+{
+    if (matrix1 == NULL && matrix2 != NULL) {
+        return matrix2;
+    }
+    else if (matrix2 == NULL) {
+        return NULL;
+    }
+    else if (matrix1->rows == matrix2->rows && matrix1->columns == matrix2->columns) {
+        double arr[matrix1->rows][matrix1->columns];
+        for (int i = 0; i < matrix1->rows; i++) {
+            for (int j = 0; j < matrix2->columns; j++) {
+                arr[i][j] = matrix1->arr[i][j] + matrix2->arr[i][j];
+            }
+        }
+        return matrix_create_from_array(matrix1->rows, matrix2->columns, arr);
+    }
+    return NULL;
+}
+
+matrix_t matrix_subtract(matrix_t matrix1, matrix_t matrix2)
+{
+    if (matrix1 == NULL && matrix2 != NULL) {
+        double arr[matrix2->rows][matrix2->columns];
+        for (int i = 0; i < matrix2->rows; i++) {
+            for (int j = 0; j < matrix2->columns; j++) {
+                arr[i][j] = matrix2->arr[i][j] * -1;
+            }
+        }
+        return matrix_create_from_array(matrix2->rows, matrix2->columns, arr);
+    }
+    else if (matrix2 == NULL) {
+        return NULL;
+    }
+    else if (matrix1->rows == matrix2->rows && matrix1->columns == matrix2->columns) {
+        double arr[matrix1->rows][matrix1->columns];
+        for (int i = 0; i < matrix1->rows; i++) {
+            for (int j = 0; j < matrix2->columns; j++) {
+                arr[i][j] = matrix1->arr[i][j] - matrix2->arr[i][j];
+            }
+        }
+        return matrix_create_from_array(matrix1->rows, matrix2->columns, arr);
+    }
+    return NULL;
+}
+
+matrix_t matrix_scalar_product(matrix_t matrix, double scalar)
+{
+    if (matrix == NULL) {
+        return NULL;
+    }
+
+    double arr[matrix->rows][matrix->columns];
+    for (int i = 0; i < matrix->rows; i++) {
+        for (int j = 0; j < matrix->columns; j++) {
+            arr[i][j] = matrix->arr[i][j] * scalar;
+        }
+    }
+    matrix_t product = matrix_create_from_array(matrix->rows, matrix->columns,
+                                                arr);
+    
+    return product;
+}
+
+
+bool matrix_equals(matrix_t matrix1, matrix_t matrix2)
+{
+    if (matrix1->rows == matrix2->rows && matrix1->columns == matrix2->columns) {
+        for (int i = 0; i < matrix1->rows; i++) {
+            for (int j = 0; j < matrix1->columns; j++) {
+                if (matrix1->arr[i][j] != matrix2->arr[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+bool matrix_not_equals(matrix_t matrix1, matrix_t matrix2)
+{
+    return !matrix_equals(matrix1, matrix2);
 }
 
 void matrix_print(matrix_t matrix)
