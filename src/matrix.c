@@ -143,7 +143,7 @@ matrix_t matrix_add(matrix_t matrix1, matrix_t matrix2)
     return NULL;
 }
 
-matrix_t matrix_multiplication(matrix_t matrix1, matrix_t matrix2)
+matrix_t matrix_product(matrix_t matrix1, matrix_t matrix2)
 {
     if (matrix1->columns != matrix2->rows) {
         return NULL;
@@ -151,13 +151,17 @@ matrix_t matrix_multiplication(matrix_t matrix1, matrix_t matrix2)
 
     double arr[matrix1->rows][matrix2->columns];
 
-    // for (int i = 0; i < matrix1->rows; i++) {
-    //     double product = 0;
-    //     for (int j = 0; j < matrix1->columns; j++) {
-    //         product += matrix1->arr[i][j] * matrix2->arr[j][i];
-    //     }
-    //     arr[i][]
-    // }
+    for (int i = 0; i < matrix1->rows; i++) {
+        for (int j = 0; j < matrix2->columns; j++) {
+            double product = 0;
+            for (int k = 0; k < matrix1->columns; k++) {
+                product += matrix1->arr[i][k] * matrix2->arr[k][j];
+            }
+            arr[i][j] = product;
+        }
+    }
+
+    return matrix_create_from_array(matrix1->rows, matrix2->columns, arr);
 }
 
 matrix_t matrix_subtract(matrix_t matrix1, matrix_t matrix2)
@@ -198,6 +202,7 @@ matrix_t matrix_scalar_product(matrix_t matrix, double scalar)
             arr[i][j] = matrix->arr[i][j] * scalar;
         }
     }
+
     matrix_t product = matrix_create_from_array(matrix->rows, matrix->columns,
                                                 arr);
     
@@ -229,13 +234,58 @@ void matrix_row_add(matrix_t matrix, int row1, int row2, int scalar)
     }
 }
 
-void matrix_rref(matrix_t matrix)
+matrix_t matrix_rref(matrix_t matrix)
 {
+    // Row reduce
     int current_row = 0;
     int current_col = 0;
     while (current_row < matrix->rows && current_col < matrix->columns) {
-
+        
     }
+}
+
+vector_t matrix_max(matrix_t matrix, int dim)
+{
+    if (dim == 0) {
+        double arr[matrix->rows];
+        for (int i = 0; i < matrix->rows; i++) {
+            double max = 0;
+            for (int j = 0; j < matrix->columns; j++) {
+                if (matrix->arr[i][j] > max) {
+                    max = matrix->arr[i][j];
+                }
+            }
+            arr[i] = max;
+        }
+        return vector_create(matrix->rows, arr, true);
+    }
+    else if (dim == 1) {
+        double arr[matrix->columns];
+        for (int i = 0; i < matrix->columns; i++) {
+            double max = 0;
+            for (int j = 0; j < matrix->rows; j++) {
+                if (matrix->arr[j][i] > max) {
+                    max = matrix->arr[j][i];
+                }
+            }
+            arr[i] = max;
+        }
+        return vector_create(matrix->columns, arr, false);
+    }
+    else {
+        return NULL;
+    }
+}
+
+matrix_t matrix_abs(matrix_t matrix)
+{
+    double arr[matrix->rows][matrix->columns];
+    for (int i = 0; i < matrix->rows; i++) {
+        for (int j = 0; j < matrix->columns; j++) {
+            arr[i][j] = fabs(matrix->arr[i][j]);
+        }
+    }
+    return matrix_create_from_array(matrix->rows, matrix->columns, arr);
 }
 
 bool matrix_equals(matrix_t matrix1, matrix_t matrix2)

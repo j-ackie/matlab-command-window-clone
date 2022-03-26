@@ -8,7 +8,7 @@
 typedef struct vector* vector_t;
 
 // Creates a vector.
-vector_t vector_create(double arr[], int length, bool column);
+vector_t vector_create(int length, double arr[], bool column);
 
 // Frees a vector and its arr member.
 void vector_destroy(vector_t vector);
@@ -42,11 +42,14 @@ double vector_dot_product(vector_t vector1, vector_t vector2);
 vector_t vector_scalar_product(vector_t vector, double scalar);
 
 // Returns the normalized vector of a vector.
-vector_t vector_norm(vector_t vector);
+// Precondition: vector is not NULL.
+double vector_norm(vector_t vector);
 
 // Inserts an element at a specified index of a vector.
 // Precondition: index is valid.
 void vector_insert(vector_t vector, double value, int index);
+
+vector_t vector_find(vector_t vector, int n);
 
 // Checks if two vectors have same elements, length, and vector type.
 bool vector_equals(vector_t vector1, vector_t vector2);
