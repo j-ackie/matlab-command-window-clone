@@ -26,6 +26,8 @@ int matrix_rows(matrix_t matrix);
 // Returns the number of columns in a matrix.
 int matrix_columns(matrix_t matrix);
 
+matrix_t matrix_slice(matrix_t matrix, int row_start, int row_end, int col_start, int col_end);
+
 // Returns a pointer to the index in a matrix.
 double* matrix_at(matrix_t matrix, int row, int column);
 
@@ -45,20 +47,20 @@ matrix_t matrix_product(matrix_t matrix1, matrix_t matrix2);
 matrix_t matrix_scalar_product(matrix_t matrix, double scalar);
 
 // Swaps two rows in a matrix.
-void matrix_row_swap(matrix_t matrix, int row1, int row2);
+matrix_t matrix_row_swap(matrix_t matrix, int row1, int row2);
 
 // Multiplies a row in a matrix by a scalar value.
-void matrix_row_multiply(matrix_t matrix, int row, int scalar);
+matrix_t matrix_row_multiply(matrix_t matrix, int row, double scalar);
 
 // Adds scalar * row1 to row2 in a matrix.
-void matrix_row_add(matrix_t matrix, int row1, int row2, int scalar);
+matrix_t matrix_row_add(matrix_t matrix, int row1, int row2, double scalar);
 
 // Returns the row reduced echelon form of a matrix.
 matrix_t matrix_rref(matrix_t matrix);
 
 // Returns the maximum elements along dimension dim.
 // 0 == rows, 1 == columns
-vector_t matrix_max(matrix_t matrix, int dim);
+matrix_t matrix_max(matrix_t matrix, int dim);
 
 // Returns the absolute value of a matrix.
 matrix_t matrix_abs(matrix_t matrix);

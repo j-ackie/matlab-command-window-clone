@@ -64,6 +64,22 @@ static void test_matrix_arr(void)
     printf("%s passed\n", __func__);
 }
 
+static void test_matrix_slice(void)
+{
+    double arr1[2][3] = {{1, 2, 3}, {2, 3, 4}};
+    matrix_t matrix1 = matrix_create_from_array(2, 3, arr1);
+
+    double arr2[1][2] = {{3, 4}};
+    matrix_t matrix2 = matrix_create_from_array(1, 2, arr2);
+
+    assert(matrix_equals(matrix_slice(matrix1, 1, 1, 1, 2), matrix2));
+
+    matrix_destroy(matrix1);
+    matrix_destroy(matrix2);
+
+    printf("%s passed\n", __func__);
+}
+
 static void test_matrix_at(void)
 {
     double arr[2][3] = {{1, 2, 3}, {2, 3, 4}};
@@ -200,9 +216,7 @@ static void test_matrix_row_swap(void)
     double arr2[2][3] = {{2, 3, 4}, {1, 2, 3}};
     matrix_t matrix2 = matrix_create_from_array(2, 3, arr2);
 
-    matrix_row_swap(matrix1, 0, 1);
-
-    assert(matrix_equals(matrix1, matrix2));
+    assert(matrix_equals(matrix_row_swap(matrix1, 0, 1), matrix2));
 
     matrix_destroy(matrix1);
     matrix_destroy(matrix2);
@@ -218,9 +232,7 @@ static void test_matrix_row_multiply(void)
     double arr2[2][3] = {{5, 10, 15}, {2, 3, 4}};
     matrix_t matrix2 = matrix_create_from_array(2, 3, arr2);
 
-    matrix_row_multiply(matrix1, 0, 5);
-
-    assert(matrix_equals(matrix1, matrix2));
+    assert(matrix_equals(matrix_row_multiply(matrix1, 0, 5), matrix2));
 
     matrix_destroy(matrix1);
     matrix_destroy(matrix2);
@@ -236,9 +248,7 @@ static void test_matrix_row_add(void)
     double arr2[2][3] = {{1, 2, 3}, {7, 13, 19}};
     matrix_t matrix2 = matrix_create_from_array(2, 3, arr2);
 
-    matrix_row_add(matrix1, 0, 1, 5);
-
-    assert(matrix_equals(matrix1, matrix2));
+    assert(matrix_equals(matrix_row_add(matrix1, 0, 1, 5), matrix2));
 
     matrix_destroy(matrix1);
     matrix_destroy(matrix2);
@@ -246,24 +256,41 @@ static void test_matrix_row_add(void)
     printf("%s passed\n", __func__);
 }
 
+static void test_matrix_rref(void)
+{
+    double arr1[3][3] = {{4, 5, 7}, {-4, 7, 2}, {8, 2 ,1}};
+    matrix_t matrix1 = matrix_create_from_array(3, 3, arr1);
+
+    double arr2[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    matrix_t matrix2 = matrix_create_from_array(3, 3, arr2);
+
+    matrix_print(matrix_rref(matrix1));
+
+    assert(matrix_equals(matrix_rref(matrix1), matrix2));
+
+    matrix_destroy(matrix1);
+    matrix_destroy(matrix2);
+}
+
 static void test_matrix_max(void)
 {
     double arr1[2][3] = {{1, 2, 3}, {2, 3, 4}};
-    matrix_t matrix = matrix_create_from_array(2, 3, arr1);
+    matrix_t matrix1 = matrix_create_from_array(2, 3, arr1);
 
-    double arr2[3] = {2, 3, 4};
-    vector_t vector1 = vector_create(3, arr2, false);
+    double arr2[2][3] = {{2, 3, 4}, {1, 1, 1}};
+    matrix_t matrix2 = matrix_create_from_array(2, 3, arr2);
 
-    double arr3[2] = {3, 4};
-    vector_t vector2 = vector_create(2, arr3, true);
+    assert(matrix_equals(matrix_max(matrix1, 1), matrix2));
 
-    assert(vector_equals(matrix_max(matrix, 1), vector1));
-    assert(vector_equals(matrix_max(matrix, 0), vector2));
+    double arr3[2][2] = {{3, 4}, {2, 2}};
+    matrix_t matrix3 = matrix_create_from_array(2, 2, arr3);
 
-    matrix_destroy(matrix);
-    vector_destroy(vector1);
-    vector_destroy(vector2);
+    assert(matrix_equals(matrix_max(matrix1, 0), matrix3));
 
+    matrix_destroy(matrix1);
+    matrix_destroy(matrix2);
+    matrix_destroy(matrix3);
+    
     printf("%s passed\n", __func__);
 }
 
@@ -293,6 +320,7 @@ int main(void)
 
     test_matrix_create_destroy();
     test_matrix_arr();
+    test_matrix_slice();
     test_matrix_at();
     test_matrix_transpose();
     test_matrix_add();
@@ -302,6 +330,7 @@ int main(void)
     test_matrix_row_swap();
     test_matrix_row_multiply();
     test_matrix_row_add();
+    test_matrix_rref();
     test_matrix_max();
     test_matrix_abs();
 

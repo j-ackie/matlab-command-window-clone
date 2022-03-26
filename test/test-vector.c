@@ -295,6 +295,7 @@ static void test_vector_find(void)
     vector_t vector5 = vector_create(0, arr5, false);
 
     assert(vector_equals(vector_find(vector4, 5), vector5));
+    assert(vector_length(vector_find(vector4, 5)) == 0);
 
     vector_destroy(vector1);
     vector_destroy(vector2);
