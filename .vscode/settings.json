@@ -4,6 +4,7 @@
         "stdio.h": "c",
         "vector.h": "c",
         "stdlib.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "readline.h": "c"
     }
 }

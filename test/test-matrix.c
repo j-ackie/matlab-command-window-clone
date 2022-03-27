@@ -264,12 +264,12 @@ static void test_matrix_rref(void)
     double arr2[3][3] = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
     matrix_t matrix2 = matrix_create_from_array(3, 3, arr2);
 
-    matrix_print(matrix_rref(matrix1));
-
     assert(matrix_equals(matrix_rref(matrix1), matrix2));
 
     matrix_destroy(matrix1);
     matrix_destroy(matrix2);
+
+    printf("%s passed\n", __func__);
 }
 
 static void test_matrix_max(void)

@@ -3,7 +3,7 @@ all: linalgebra test-vector test-matrix
 	./test-matrix
 
 linalgebra: src/linalgebra.o src/matrix.o src/vector.o 
-	gcc src/linalgebra.o src/matrix.o src/vector.o -fsanitize=address,undefined -pedantic-errors -o linalgebra
+	gcc src/linalgebra.o src/matrix.o src/vector.o -fsanitize=address,undefined -pedantic-errors -lreadline -o linalgebra
 
 linalgebra.o: src/linalgebra.c src/linalgebra.h
 	gcc src/linalgebra.c -fsanitize=address,undefined -pedantic-errors -c
