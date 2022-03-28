@@ -10,6 +10,7 @@
         "ctype.h": "c",
         "sstream": "c",
         "string.h": "c",
-        "command.h": "c"
+        "command.h": "c",
+        "history.h": "c"
     }
 }
