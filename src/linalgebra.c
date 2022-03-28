@@ -1,4 +1,5 @@
 #include "linalgebra.h"
+#include "util.h"
 
 #include <string.h>
 #include <readline/readline.h>
@@ -10,7 +11,8 @@ int main(void)
 
     char* line;
     while ((line = readline(">> ")) != NULL) {
-        if (strcmp(line, "quit") == 0) {
+        strip(line);
+        if (check_quit(line)) {
             free(line);
             break;
         }
@@ -18,6 +20,5 @@ int main(void)
         add_history(line);
         free(line);
     }
-
     return 0;
 }
