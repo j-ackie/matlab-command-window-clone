@@ -24,6 +24,7 @@ bool check_vector(char* line)
 
 void check_command(char* line)
 {
+    void* ans;
     if (strcmp(line, "quit") == 0 || strcmp(line, "exit") == 0) {
         free(line);
         exit(0);
@@ -32,9 +33,12 @@ void check_command(char* line)
         system("clear");
     }
     else if (check_vector(line)) {
-        vector_print(vector_create_from_stdin(line));
+        ans = vector_create_from_stdin(line);
+        if (ans != NULL) {
+            vector_print(ans);
+        }
     }
     else {
-        fprintf(stderr, "Unrecognized function or variable '%s'\n", line);
+        fprintf(stderr, "Unrecognized function or variable '%s'.\n", line);
     }
 }

@@ -1,6 +1,7 @@
 #include "vector.h"
 #include "util.h"
 
+#include <errno.h>
 #include <string.h>
 
 struct vector
@@ -52,7 +53,16 @@ vector_t vector_create_from_stdin(char* line)
     int i = 0;
     while (split != NULL) {
         char* end;
+
+        errno = 0;
+
         arr[i] = strtod(split, &end);
+
+        if (errno != 0 || *end != '\0') {
+            fprintf(stderr, "Invalid expression '%s'.\n", split);
+            return NULL;
+        } 
+
         split = strtok(NULL, " ");
         i++;
     }
