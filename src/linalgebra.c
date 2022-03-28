@@ -1,5 +1,6 @@
 #include "linalgebra.h"
 #include "util.h"
+#include "command.h"
 
 #include <string.h>
 #include <readline/readline.h>
@@ -12,11 +13,7 @@ int main(void)
     char* line;
     while ((line = readline(">> ")) != NULL) {
         strip(line);
-        if (check_quit(line)) {
-            free(line);
-            break;
-        }
-        printf("%s\n", line);
+        check_command(line);
         add_history(line);
         free(line);
     }

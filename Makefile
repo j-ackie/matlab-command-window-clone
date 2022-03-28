@@ -1,10 +1,11 @@
-all: linalgebra test-vector test-matrix test-util
+all: linalgebra test-vector test-matrix test-util test-command
 	./test-vector
 	./test-matrix
 	./test-util
+	./test-command
 
-linalgebra: src/linalgebra.o src/matrix.o src/vector.o src/util.o
-	gcc src/linalgebra.o src/matrix.o src/vector.o src/util.o -fsanitize=address,undefined -pedantic-errors -lreadline -o linalgebra
+linalgebra: src/linalgebra.o src/matrix.o src/vector.o src/util.o src/command.o
+	gcc src/linalgebra.o src/matrix.o src/vector.o src/util.o src/command.o -fsanitize=address,undefined -pedantic-errors -lreadline -o linalgebra
 
 linalgebra.o: src/linalgebra.c src/linalgebra.h
 	gcc src/linalgebra.c -fsanitize=address,undefined -pedantic-errors -c
@@ -17,6 +18,9 @@ vector.o: src/vector.c src/vector.h
 
 util.o: src/util.c src/util.h
 	gcc src/util.c -fsanitize=address,undefined -pedantic-errors -c
+
+command.o: src/command.c src/command.h
+	gcc src/command.c -fsanitize=address,undefined -pedantic-errors -c
 
 test-vector: test/test-vector.o src/vector.o
 	gcc test/test-vector.o src/vector.o -fsanitize=address,undefined -pedantic-errors -o test-vector
@@ -35,6 +39,12 @@ test-util: test/test-util.o src/util.o
 
 test-util.o: test/test-util.c
 	gcc test/test-util.c -fsanitize=address,undefined -pedantic-errors -c
+
+test-command: test/test-command.o src/command.o src/vector.o
+	gcc test/test-command.o src/command.o src/vector.o -fsanitize=address,undefined -pedantic-errors -o test-command
+
+test-command.o: test/test-command.c
+	gcc test/test-command.c -fsanitize=address,undefined -pedantic-errors -c
 
 clean:
 	rm -f */*.o linalgebra test-vector test-matrix test-util

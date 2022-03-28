@@ -13,6 +13,17 @@ static void test_vector_create_destroy(void)
     printf("%s passed\n", __func__);
 }
 
+static void test_vector_create_from_stdin(void)
+{
+    char line[] = "[ 44 2  3 ]";
+    vector_t vector1 = vector_create_from_stdin(line);
+
+    double arr[3] = {44, 2, 3};
+    vector_t vector2 = vector_create(3, arr, false);
+
+    assert(vector_equals(vector1, vector2));
+}
+
 static void test_vector_arr(void)
 {
     double arr1[5] = {1, 2, 3, 4, 5};
@@ -315,6 +326,7 @@ int main(void) {
     clock_t begin = clock();
 
     test_vector_create_destroy();
+    test_vector_create_from_stdin();
     test_vector_arr();
     test_vector_length();
     test_vector_column();

@@ -1,4 +1,7 @@
 #include "vector.h"
+#include "util.h"
+
+#include <string.h>
 
 struct vector
 {
@@ -24,6 +27,39 @@ vector_t vector_create(int length, double arr[length], bool column)
 
     return vector;
 }
+
+vector_t vector_create_from_stdin(char* line)
+{
+    char contents[strlen(line) - 1];
+    strncpy(contents, line + 1, strlen(line) - 1);
+    contents[strlen(line) - 2] = '\0';
+
+    char contents_copy[strlen(line)- 1];
+    strcpy(contents_copy, contents);
+
+    int length = 0;
+
+    char* split = strtok(contents, " ");
+
+    while (split != NULL) {
+        split = strtok(NULL, " ");
+        length++;
+    }
+
+    split = strtok(contents_copy, " ");
+
+    double arr[length];
+    int i = 0;
+    while (split != NULL) {
+        char* end;
+        arr[i] = strtod(split, &end);
+        split = strtok(NULL, " ");
+        i++;
+    }
+
+    return vector_create(length, arr, false);
+}
+
 
 void vector_destroy(vector_t vector)
 {

@@ -9,6 +9,7 @@
         "util.h": "c",
         "ctype.h": "c",
         "sstream": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "command.h": "c"
     }
 }

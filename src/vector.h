@@ -10,6 +10,8 @@ typedef struct vector* vector_t;
 // Creates a vector.
 vector_t vector_create(int length, double arr[], bool column);
 
+vector_t vector_create_from_stdin(char* str);
+
 // Frees a vector and its arr member.
 void vector_destroy(vector_t vector);
 
