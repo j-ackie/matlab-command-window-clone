@@ -29,6 +29,23 @@ void strip(char* line)
     rstrip(line);
 }
 
+void remove_spaces(char* line)
+{
+    int src = 0;
+    int dst = 0;
+    while (line[src] != '\0') {
+        if (isspace(line[src]) != 0) {
+            src++;
+        }
+        else {
+            line[dst] = line[src];
+            src++;
+            dst++;
+        }
+    }
+    line[dst] = '\0';
+}
+
 
 bool check_quit(char* line)
 {

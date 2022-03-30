@@ -8,6 +8,8 @@ void rstrip(char* line);
 
 void strip(char* line);
 
+void remove_spaces(char* line);
+
 // Returns true if user inputs "quit" or "exit"
 // Precondition: line has been stripped
 bool check_quit(char* line);

@@ -26,8 +26,6 @@ static void test_lstrip(void)
     printf("%s passed\n", __func__);
 }
 
-
-
 static void test_rstrip(void)
 {
     char str1[] = "abc";
@@ -74,6 +72,23 @@ static void test_strip(void)
     printf("%s passed\n", __func__);
 }
 
+static void test_remove_spaces(void)
+{
+    char str1[] = "  a b  c";
+    remove_spaces(str1);
+    assert(strcmp("abc", str1) == 0);
+
+    char str2[] = "a          2      c   ";
+    remove_spaces(str2);
+    assert(strcmp("a2c", str2) == 0);
+
+    char str3[] = "     ";
+    remove_spaces(str3);
+    assert(strcmp("", str3) == 0);
+
+    printf("%s passed\n", __func__);
+}
+
 static void test_check_exit(void)
 {
     assert(check_quit("quit"));
@@ -96,6 +111,7 @@ int main(void)
     test_lstrip();
     test_rstrip();
     test_strip();
+    test_remove_spaces();
     test_check_exit();
 
     clock_t end = clock();

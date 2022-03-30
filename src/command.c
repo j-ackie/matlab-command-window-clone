@@ -5,6 +5,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+struct ans
+{
+    void* val;
+};
+
 bool check_vector(char* line)
 {
     bool first_bracket = false;
@@ -21,6 +26,32 @@ bool check_vector(char* line)
     return first_bracket && last_bracket;
 }
 
+bool check_assignment(char* line)
+{
+    if (strcmp(line, "") != 0) {
+        if ((line[0] >= 65 && line[0] <= 90) || (line[0] >= 97 && line[0] <= 122)) {
+            bool numeric = false;
+            bool equals_sign = false;
+            int equals_sign_index = 0;
+            for (int i = 1; line[i] != '\0'; i++) {
+                if (line[i] == '=' && !equals_sign) {
+                    equals_sign = true;
+                    equals_sign_index = i;
+                }
+                else if (line[i] == '=' && equals_sign) {
+                    equals_sign = false;
+                }
+                else if (line[i] >= 48 && line[i] <= 57 && equals_sign) {
+                    numeric = true;
+                }
+            }
+            if (numeric) {
+                char subtext[strlen(line) + 1 - equals_sign_index];
+            }           
+        }
+    }
+    
+}
 
 void check_command(char* line)
 {
